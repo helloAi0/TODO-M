@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import { v4 as uuidv4 } from 'uuid';
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import { getRandomQuote } from "./components/quotes";
+
 
 export default function App() {
   const [todo, setTodo] = useState("");
@@ -76,6 +78,16 @@ export default function App() {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
+
+  const [quote, setQuote] = useState(getRandomQuote());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuote(getRandomQuote());
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, []);
 
 
 
@@ -243,15 +255,13 @@ export default function App() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
+      <div className="min-h-screen bg-transparent">
 
-        <div className="font-bold text-xl text-gray-600 mb-3">
-          📊 Time spent today: <b>{getTodayTimeSpent()}</b>
-        </div>
 
 
 
         <Navbar />
+        <div className="h-16"></div>
         <div className="max-w-3xl mx-auto my-6 sm:my-10 rounded-2xl p-4 sm:p-6 bg-white/90 dark:bg-gray-900 dark:text-white backdrop-blur-md shadow-2xl min-h-[80vh] relative ">
           <button
             onClick={() => setDarkMode(!darkMode)}
@@ -268,7 +278,18 @@ export default function App() {
           </button>
 
           <div className="my-6">
-            <h2 className="text-xl font-semibold mb-3">Add a Todo</h2>
+            <div className="font-bold text-sm text-gray-600 mb-3">
+              📊 Time spent today: <b>{getTodayTimeSpent()}</b>
+            </div>
+
+            <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Add a Todo</h2>
+
+            <div className=" text-center py-2 mb-4">
+              <span className="font-bold text-xl font-medium text-gray-700 dark:text-gray-300 italic transition-all duration-500">
+                {quote}
+              </span>
+            </div>
+
 
             <div className="flex flex-col sm:flex-row gap-3">
               <input
@@ -276,13 +297,14 @@ export default function App() {
                 value={todo}
                 type="text"
                 placeholder="Write your task..."
-                className="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                className="flex-1 px-4 py-3 rounded-xl border bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
               />
+
               <input
                 type="datetime-local"
                 value={dueAt}
                 onChange={(e) => setDueAt(e.target.value)}
-                className="px-4 py-2 rounded-xl border"
+                className="px-4 py-2 rounded-xl border  bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
 
 
@@ -298,13 +320,13 @@ export default function App() {
             {error && <p className="text-red-600 font-semibold mt-2">{error}</p>}
           </div>
 
-          <h2 className='text-xl font-semibold my-6'>Your Todos</h2>
+          <h2 className='text-xl font-semibold my-6 text-gray-900 dark:text-white'>Your Todos</h2>
           <div className='todos'>
             {todos.length === 0 && <div className='text-center text-gray-500 dark:text-gray-400 py-10 font-medium'>No todos yet. Add your first task!</div>}
             {todos.map(item => (
               <div
                 key={item.id}
-                className="flex items-center justify-between gap-3 p-4 mb-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition"
+                className="flex items-center justify-between gap-3 p-4 mb-3 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition"
               >
                 <input
                   type="checkbox"
