@@ -243,10 +243,9 @@ export default function App() {
 
   return (
     <>
-      <div className={`min-h-screen ${darkMode ? "dark" : ""}`}>
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
 
-
-        <div className="text-sm text-gray-600 mb-3">
+        <div className="font-bold text-xl text-gray-600 mb-3">
           📊 Time spent today: <b>{getTodayTimeSpent()}</b>
         </div>
 
@@ -301,7 +300,7 @@ export default function App() {
 
           <h2 className='text-xl font-semibold my-6'>Your Todos</h2>
           <div className='todos'>
-            {todos.length === 0 && <div className='text-center text-gray-500 py-10 font-medium'>No todos yet. Add your first task!</div>}
+            {todos.length === 0 && <div className='text-center text-gray-500 dark:text-gray-400 py-10 font-medium'>No todos yet. Add your first task!</div>}
             {todos.map(item => (
               <div
                 key={item.id}
